@@ -26,6 +26,25 @@ namespace Projeto4Bio.Repositories
         {
             var clientes = GetAll();
             cliente.Id = clientes.Count > 0 ? clientes.Max(c => c.Id) + 1 : 1;
+
+            if (cliente.Contatos != null)
+            {
+                int contatoId = 1;
+                foreach (var contato in cliente.Contatos)
+                {
+                    contato.Id = contatoId++;
+                }
+            }
+
+            if (cliente.Enderecos != null)
+            {
+                int enderecoId = 1;
+                foreach (var endereco in cliente.Enderecos)
+                {
+                    endereco.Id = enderecoId++;
+                }
+            }
+
             clientes.Add(cliente);
             SaveChanges(clientes);
         }
@@ -36,6 +55,20 @@ namespace Projeto4Bio.Repositories
             var index = clientes.FindIndex(c => c.Id == cliente.Id);
             if (index >= 0)
             {
+                if (cliente.Contatos != null)
+                {
+                    int contatoId = 1;
+                    foreach (var contato in cliente.Contatos)
+                        contato.Id = contatoId++;
+                }
+
+                if (cliente.Enderecos != null)
+                {
+                    int enderecoId = 1;
+                    foreach (var endereco in cliente.Enderecos)
+                        endereco.Id = enderecoId++;
+                }
+
                 clientes[index] = cliente;
                 SaveChanges(clientes);
             }
@@ -50,7 +83,11 @@ namespace Projeto4Bio.Repositories
 
         public void SaveChanges(List<Cliente> clientes)
         {
-            var json = JsonSerializer.Serialize(clientes, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(clientes, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            });
             Directory.CreateDirectory("Data");
             File.WriteAllText(_filePath, json);
         }

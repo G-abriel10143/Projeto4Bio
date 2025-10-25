@@ -3,7 +3,7 @@
     public class Endereco
     {
         public int Id { get; set; }
-        public string Tipo { get; set; } = string.Empty; // Preferencial, Entrega, Cobrança
+        public string Tipo { get; set; } = string.Empty;
         public string CEP { get; set; } = string.Empty;
         public string Logradouro { get; set; } = string.Empty;
         public int Numero { get; set; }
