@@ -16,10 +16,12 @@ namespace Projeto4Bio.Controllers
         }
 
         [HttpGet("listar")]
-        public IActionResult Listar([FromQuery] string nome, [FromQuery] string email, [FromQuery] string cpf)
+        public IActionResult Listar([FromQuery] string? nome = null, [FromQuery] string? email = null, [FromQuery] string? cpf = null)
         {
-            return Ok(_service.Listar(nome, email, cpf));
+            var resultado = _service.Listar(nome, email, cpf);
+            return Ok(resultado);
         }
+
 
         [HttpPost("criar")]
         public IActionResult Criar([FromBody] Cliente cliente)
